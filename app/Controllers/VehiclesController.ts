@@ -1,23 +1,38 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { IVehicle } from 'App/Types/Vehicle'
+import Vehicles from 'App/Models/Vehicles'
 
 export default class VehiclesController {
-    public async index(ctx: HttpContextContract) {
+  public async index({}: HttpContextContract) {
+    const vehicles = await Vehicles.all()
+    return vehicles
+  }
 
-      const vehicles: IVehicle[] = [
-        {
-          id: 1,
-          name: 'First Vehicle',
-          description: 'This is a description of first vehicle',
-          plate: 'DDT-0012',
-          isFavorite: false,
-          year: 2018,
-          color: '#ff00ff',
-          price: 22000,
-          createdAt: new Date()
-        }
-      ]
+  public async store({ request }: HttpContextContract) {
+    const data = request.only(['name', 'description', 'plate', 'isFavorite', 'year', 'color', 'price', 'createdAt'])
+    const post = await Vehicles.create(data)
 
-      return vehicles
-    }
+    return post
+  }
+
+  public async show({ params }: HttpContextContract) {
+    const post = await Vehicles.findOrFail(params.id)
+
+    return post
+  }
+
+  public async update({ request, params}: HttpContextContract) {
+    const post = await Vehicles.findOrFail(params.id)
+    const data = request.only(['name', 'description', 'plate', 'isFavorite', 'year', 'color', 'price', 'createdAt'])
+    
+    post.merge(data)
+
+    await post.save()
+    return post
+  }
+
+  public async destroy({ params }: HttpContextContract) {
+    const post = await Vehicles.findOrFail(params.id)
+
+    await post.delete()
+  }
 }
