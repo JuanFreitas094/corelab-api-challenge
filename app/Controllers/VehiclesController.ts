@@ -8,9 +8,10 @@ export default class VehiclesController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const data = request.only(['name', 'description', 'plate', 'isFavorite', 'year', 'color', 'price', 'createdAt'])
-    const post = await Vehicles.create(data)
+    const data = request.only(['vehicle'])
+    const vehicle = data['vehicle']
 
+    const post = await Vehicles.create(vehicle)
     return post
   }
 
@@ -21,10 +22,11 @@ export default class VehiclesController {
   }
 
   public async update({ request, params}: HttpContextContract) {
-    const post = await Vehicles.findOrFail(params.id)
-    const data = request.only(['name', 'description', 'plate', 'isFavorite', 'year', 'color', 'price', 'createdAt'])
-    
-    post.merge(data)
+    const post = await Vehicles.findOrFail(params.id)    
+    const data = request.only(['vehicle'])
+    const vehicle = data['vehicle']
+
+    post.merge(vehicle)
 
     await post.save()
     return post
