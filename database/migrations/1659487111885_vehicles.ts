@@ -9,11 +9,11 @@ export default class Vehicles extends BaseSchema {
       table.string('name')
       table.text('description', 'longtext')
       table.string('plate')
-      table.boolean('isFavorite')
+      table.boolean('is_favorite')
       table.integer('year')
       table.string('color')
       table.float('price')
-      table.date('createdAt')
+      table.date('created_at')
     })
   }
 

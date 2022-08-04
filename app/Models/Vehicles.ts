@@ -14,7 +14,7 @@ export default class Vehicles extends BaseModel {
   public plate: string
 
   @column()
-  public isFavorite: boolean
+  public is_favorite: boolean
 
   @column()
   public year: number
@@ -26,5 +26,5 @@ export default class Vehicles extends BaseModel {
   public price: number
 
   @column()
-  public createdAt: Date
+  public created_at: Date
 }
